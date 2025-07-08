@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
-import Course from "./course";
+import Course from "./Course";
 import { toast } from "sonner";
 
 function Profile() {
