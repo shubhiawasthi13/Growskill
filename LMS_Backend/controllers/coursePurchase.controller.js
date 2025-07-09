@@ -36,8 +36,8 @@ export const createCheckoutSeesion = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `https://growskill-6gaq.onrender.com/course-progress/${courseId}`,
-      cancel_url: `https://growskill-6gaq.onrender.com/course-detail/${courseId}`,
+      success_url: `https://growskill-6gaq.onrender.com/`,
+      cancel_url: `https://growskill-6gaq.onrender.com/`,
       metadata: {
         courseId,
         userId,
@@ -134,7 +134,7 @@ export const stripeWebHook = async (req, res) => {
 
 export const getCourseDetailWithPurchaseStatus = async (req, res) => {
   try {
-    const {courseId} = req.params;
+    const { courseId } = req.params;
     const userId = req.id;
     const course = await Course.findById(courseId)
       .populate({ path: "creator" })
@@ -158,11 +158,15 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
   }
 };
 
-export const getAllPurchasedCourse = async (_, res) => {
+export const getAllPurchasedCourse = async (req, res) => {
   try {
+    const userId = req.id; // ✅ Or however you're setting the user ID from auth
+
     const purchasedCourse = await CoursePurchase.find({
+      userId,
       status: "completed",
     }).populate("courseId");
+
     if (!purchasedCourse) {
       return res.status(400).json({
         purchasedCourse: [],
