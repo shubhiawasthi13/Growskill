@@ -36,8 +36,8 @@ export const createCheckoutSeesion = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.FRONTEND_URL}/course-progress/${courseId}`,
-      cancel_url: `${process.env.FRONTEND_URL}/course-detail/${courseId}`,
+      success_url: `https://growskill-6gaq.onrender.com/course-progress/${courseId}`,
+      cancel_url: `https://growskill-6gaq.onrender.com/course-detail/${courseId}`,
       metadata: {
         courseId,
         userId,
