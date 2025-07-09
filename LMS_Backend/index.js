@@ -17,7 +17,6 @@ const __dirname = path.resolve();
 console.log(__dirname)
 const app = express();
 const PORT = process.env.PORT;
-app.use("/api/v1/purchase", purchaseRoute);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -32,6 +31,7 @@ app.use(
 app.use("/api/v1/media", mediaRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/course", courseRoute);
+app.use("/api/v1/purchase", purchaseRoute);
 app.use("/api/v1/progress", courseProgressRoute);
 
 
