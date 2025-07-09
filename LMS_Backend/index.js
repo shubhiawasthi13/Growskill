@@ -37,7 +37,6 @@ app.use("/api/v1/progress", courseProgressRoute);
 
 app.use(express.static(path.join(__dirname,"LMS_Frontend", "dist")));
 
-// Serve frontend manually for known client-side routes
 app.get("/course-detail/:courseId", (req, res) => {
   res.sendFile(path.join(__dirname, "LMS_Frontend", "dist", "index.html"));
 });
@@ -45,7 +44,6 @@ app.get("/course-detail/:courseId", (req, res) => {
 app.get("/course-progress/:courseId", (req, res) => {
   res.sendFile(path.join(__dirname, "LMS_Frontend", "dist", "index.html"));
 });
-
 
 
 
