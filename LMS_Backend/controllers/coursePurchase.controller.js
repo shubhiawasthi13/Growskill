@@ -158,12 +158,9 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
   }
 };
 
-export const getAllPurchasedCourse = async (req, res) => {
+export const getAllPurchasedCourse = async (_, res) => {
   try {
-    const userId = req.id; // ✅ Or however you're setting the user ID from auth
-
     const purchasedCourse = await CoursePurchase.find({
-      userId,
       status: "completed",
     }).populate("courseId");
 
