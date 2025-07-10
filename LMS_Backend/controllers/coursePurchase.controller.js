@@ -136,19 +136,23 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
   try {
     const { courseId } = req.params;
     const userId = req.id;
+
     const course = await Course.findById(courseId)
       .populate({ path: "creator" })
       .populate({ path: "lectures" });
-    const purchased = await CoursePurchase.findOne({ userId, courseId });
+
     if (!course) {
       return res.status(400).json({
         success: false,
         message: "Course not found",
       });
     }
+
+    const purchased = await CoursePurchase.findOne({ userId, courseId });
+
     return res.status(200).json({
       course,
-      purchased: !!purchased,
+      purchased: purchased?.status === "completed",
     });
   } catch (error) {
     return res.status(500).json({
@@ -157,6 +161,7 @@ export const getCourseDetailWithPurchaseStatus = async (req, res) => {
     });
   }
 };
+
 
 export const getAllPurchasedCourse = async (_, res) => {
   try {
