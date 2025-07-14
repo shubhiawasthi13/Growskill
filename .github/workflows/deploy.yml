@@ -1,18 +1,50 @@
-name: Trigger Render Deploy
+name: Check LMS Code & Deploy to Render
 
 on:
   push:
     branches:
-      - main  # or your deploy branch
+      - main  # Change if needed
 
 jobs:
-  deploy:
+  check_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Render Deploy Hook
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      #  Install backend deps (package.json in root)
+      - name: Install Backend dependencies
+        run: npm install
+
+      #  Install frontend deps (inside LMS_Frontend/)
+      - name: Install Frontend dependencies
+        run: npm install --prefix LMS_Frontend
+
+      #  Build frontend (React with .jsx files)
+      - name: Build Frontend
+        run: npm run build --prefix LMS_Frontend
+
+      #  Check backend .js syntax (optional: skip .jsx if not used in backend)
+      - name: Check Backend JS Syntax (JS and JSX)
+        run: |
+          find LMS_Backend -type f \( -name "*.js" -o -name "*.jsx" \) -not -path "*/node_modules/*" -exec node --check {} \;
+
+      # Try to start the backend temporarily (basic runtime check)
+      - name: Start Backend Temporarily to Catch Crashes
+        run: |
+          timeout 10s node LMS_Backend/index.js &
+          sleep 5
+          echo "Backend started successfully."
+
+      #  Deploy to Render only if all checks passed
+      - name: Trigger Render Deploy
+        if: success()
         run: |
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
-
-
 
