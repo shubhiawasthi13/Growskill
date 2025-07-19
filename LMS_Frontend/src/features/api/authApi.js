@@ -61,7 +61,6 @@ export const authApi = createApi({
         }
       },
     }),
-<<<<<<< HEAD
 
     updateUser: builder.mutation({
       query: (formData) => ({
@@ -71,14 +70,11 @@ export const authApi = createApi({
       }),
     }),
 
-=======
->>>>>>> 6ca901a17df9014f8a1064ca2d0b4ca1e246f1e5
     logoutUser: builder.mutation({
       query: () => ({
         url: "logout",
         method: "GET",
       }),
-<<<<<<< HEAD
       async onQueryStarted(arg, { dispatch }) {
         try {
           localStorage.removeItem("token");
@@ -88,17 +84,6 @@ export const authApi = createApi({
         }
       },
     }),
-=======
-    }),
-  updateUser: builder.mutation({
-  query: (formData) => ({
-    url: "profile/update",
-    method: "PUT",
-    body: formData,
-  }),
-}),
-
->>>>>>> 6ca901a17df9014f8a1064ca2d0b4ca1e246f1e5
   }),
 });
 
