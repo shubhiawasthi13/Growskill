@@ -36,8 +36,8 @@ export const createCheckoutSeesion = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `https://growskill-6gaq.onrender.com/`,
-      cancel_url: `https://growskill-6gaq.onrender.com/`,
+      success_url: `https://groww-skill.netlify.app/`,
+      cancel_url: `https://groww-skill.netlify.app/`,
       metadata: {
         courseId,
         userId,
