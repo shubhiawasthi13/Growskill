@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "dev": "nodemon LMS_Backend/index.js",
-    "build":"npm install && npm install --prefix LMS_Frontend && npm run build --prefix LMS_Frontend",
-    "start":"nodemon LMS_Backend/index.js"
-  },
+"scripts": {
+  "dev": "nodemon LMS_Backend/index.js",
+  "start": "node LMS_Backend/index.js"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",
