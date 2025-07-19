@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userLoggedIn, userLoggedOut } from "../authSlice";
+import { userLoggedIn } from "../authSlice";
 
 const userAPi = "https://growskill-6gaq.onrender.com/api/v1/user/";
 
@@ -7,14 +7,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: userAPi,
-    credentials: "include", // optional
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -24,7 +17,6 @@ export const authApi = createApi({
         body: inputData,
       }),
     }),
-
     loginUser: builder.mutation({
       query: (inputData) => ({
         url: "login",
@@ -34,19 +26,12 @@ export const authApi = createApi({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          const { user, token } = result.data;
-
-          // ✅ Save token
-          localStorage.setItem("token", token);
-
-          // ✅ Dispatch login state
-          dispatch(userLoggedIn({ user }));
+          dispatch(userLoggedIn({ user: result.data.user }));
         } catch (error) {
           console.log(error);
         }
       },
     }),
-
     loadUser: builder.query({
       query: () => ({
         url: "profile",
@@ -61,29 +46,20 @@ export const authApi = createApi({
         }
       },
     }),
-
-    updateUser: builder.mutation({
-      query: (formData) => ({
-        url: "profile/update",
-        method: "PUT",
-        body: formData,
-      }),
-    }),
-
     logoutUser: builder.mutation({
       query: () => ({
         url: "logout",
         method: "GET",
       }),
-      async onQueryStarted(arg, { dispatch }) {
-        try {
-          localStorage.removeItem("token");
-          dispatch(userLoggedOut());
-        } catch (error) {
-          console.log(error);
-        }
-      },
     }),
+  updateUser: builder.mutation({
+  query: (formData) => ({
+    url: "profile/update",
+    method: "PUT",
+    body: formData,
+  }),
+}),
+
   }),
 });
 
