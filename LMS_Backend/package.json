@@ -5,7 +5,8 @@
   "type": "module",
 "scripts": {
   "dev": "nodemon LMS_Backend/index.js",
-  "start": "node LMS_Backend/index.js"
+  "start": "node index.js"
+
 }
 ,
   "keywords": [],
