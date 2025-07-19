@@ -17,12 +17,18 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: "https://groww-skill.netlify.app",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors()); // Handle preflight
+
 
 // apis..........
 app.use("/api/v1/media", mediaRoute);
