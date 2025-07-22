@@ -7,9 +7,14 @@ import {
 import { CheckCircle2, CirclePlay } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import { toast } from "sonner";
 
 function CourseProgress() {
+  const [questions, setQuestions] = useState([]);
+  const [quesloading, setQuesLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+
   const params = useParams();
   const courseId = params.courseId;
   const { data, isLoading, isError, refetch } =
@@ -64,12 +69,77 @@ function CourseProgress() {
   const handleInCompleteCourse = async () => {
     markedAsInCompleted(courseId);
   };
+  const generateQues = async (courseTitle) => {
+    setModal(true);
+    setQuesLoading(true);
+    try {
+      const res = await axios.post(
+        "https://growskill-6gaq.onrender.com/api/v1/generate",
+        { courseTitle },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true, // if you're using cookies or auth
+        }
+      );
+      setQuestions(res.data.questions);
+      setQuesLoading(false);
+    } catch (err) {
+      console.error(
+        "Error generating questions:",
+        err.response?.data || err.message
+      );
+    }
+  };
+
+  const generateCertificate = async (courseTitle) => {
+    try {
+      const response = await axios.post(
+        "https://growskill-6gaq.onrender.com/api/v1/certificate",
+        { courseName: courseTitle },
+        {
+          withCredentials: true, // ✅ Send cookies like JWT
+          responseType: "blob", // ✅ Important for file downloads
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Create a blob from the PDF response
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "certificate.pdf"; // Set the desired file name
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url); // Clean up the URL object
+    } catch (error) {
+      console.error("Failed to download certificate:", error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-6 py-4 md:w-[90%] m-auto ">
       {/* Top */}
       <div className="flex justify-between items-center mb-2">
-        <div></div>
+        <button
+          onClick={(e) => generateQues(courseTitle)}
+          className={`px-4 py-1 rounded shadow flex items-center gap-2 bg-green-600 text-white dark:bg-green-500`}
+        >
+          Start Interview Prep
+        </button>
+        {completed && (
+          <button
+            onClick={() => generateCertificate(courseTitle)}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+          >
+            Download Certificate
+          </button>
+        )}
+
         <button
           className={`px-4 py-1 rounded shadow flex items-center gap-2
     ${
@@ -143,6 +213,53 @@ function CourseProgress() {
           </div>
         </div>
       </div>
+      {/* AI modal */}
+      {modal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-sm">
+          <div className="relative bg-white/80 dark:bg-gray-900/80 max-w-3xl w-full mx-4 p-6 rounded-lg shadow-lg overflow-y-auto max-h-[90vh] border border-gray-200 dark:border-gray-700">
+            {/*  Close Button */}
+            <button
+              onClick={() => setModal(false)}
+              className="absolute top-3 right-3 text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 text-2xl font-bold"
+            >
+              &times;
+            </button>
+
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+              {courseTitle} Interview Questions
+            </h2>
+
+            {/* 🔄 Loader or Content */}
+            {quesloading ? (
+              <div className="flex justify-center items-center h-32">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-blue-500 border-solid"></div>
+              </div>
+            ) : (
+              <ul className="space-y-3">
+                {questions.map((q, i) => {
+                  const [rawQ, ...rest] = q.split("Answer:");
+                  const answer = rest.join("Answer:"); // in case "Answer:" is used inside the answer
+                  return (
+                    <li
+                      key={i}
+                      className="bg-gray-100/80 dark:bg-gray-800/80 shadow rounded-md p-4 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-700"
+                    >
+                      <p className="font-semibold text-green-600 dark:text-green-400">
+                        Ques: {i + 1}. {rawQ.trim()}
+                      </p>
+                      {answer && (
+                        <p className="mt-2 text-gray-700 dark:text-gray-300">
+                          Answer: {answer.trim()}
+                        </p>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -15,17 +15,25 @@ export default function Hero() {
   };
   return (
     <section className="w-full bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white py-16 px-4 sm:px-6">
-      <div className="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-6">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-snug">
+      <div className="max-w-screen-xl mx-auto flex flex-col items-center text-center gap-5">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug">
           Unlock Your{" "}
           <span className="text-blue-700 dark:text-blue-400">Skills</span> with{" "}
           <br />
           <span className="text-blue-700 dark:text-blue-400">GrowSkill</span>
         </h1>
 
-        <p className="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl">
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl">
           Start learning new technologies, develop practical knowledge, and grow
           your career with expert-curated content.
+        </p>
+
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl">
+          Complete any course and earn a shareable{" "}
+          <span className="font-semibold text-blue-700 dark:text-blue-400">
+            Certificate of Completion
+          </span>{" "}
+          to highlight your achievement and boost your resume.
         </p>
 
         <div className="w-full max-w-md">
@@ -45,7 +53,7 @@ export default function Hero() {
 
         <Button
           size="lg"
-          className="text-lg flex items-center gap-2 mt-4 sm:mt-6"
+          className="text-base flex items-center gap-2 mt-4 sm:mt-6"
           onClick={() => navigate(`/course/search?query`)}
         >
           Explore Courses
