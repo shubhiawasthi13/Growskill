@@ -14,6 +14,7 @@ function CourseProgress() {
   const [questions, setQuestions] = useState([]);
   const [quesloading, setQuesLoading] = useState(false);
   const [modal, setModal] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
 
   const params = useParams();
   const courseId = params.courseId;
@@ -120,7 +121,14 @@ function CourseProgress() {
       console.error("Failed to download certificate:", error.message);
     }
   };
-
+  const handleDownload = async (title) => {
+    setIsDownloading(true);
+    try {
+      await generateCertificate(title); // your async function
+    } finally {
+      setIsDownloading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-6 py-4 md:w-[90%] m-auto ">
       {/* Top */}
@@ -157,17 +165,44 @@ function CourseProgress() {
       <div className="flex flex-col md:flex-row gap-6 min-h-[500px]">
         {/* Left: Video + Title */}
         <div className="md:w-[60%] bg-white dark:bg-gray-800 rounded shadow p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">{courseTitle}</h2>
-            {completed && (
-              <button
-                onClick={() => generateCertificate(courseTitle)}
-                className="bg-green-600 text-white px-4 py-2rounded hover:bg-green-600 transition"
+         <div className="flex items-center justify-between mb-4">
+      <h2 className="text-2xl font-bold">{courseTitle}</h2>
+      {completed && (
+        <button
+          onClick={() => handleDownload(courseTitle)}
+          disabled={isDownloading}
+          className="bg-green-600 text-white dark:bg-green-500 px-4 py-2 rounded hover:bg-green-700 transition flex items-center gap-2 disabled:opacity-60"
+        >
+          {isDownloading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
               >
-                Download Certificate
-              </button>
-            )}
-          </div>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+                ></path>
+              </svg>
+              Downloading...
+            </>
+          ) : (
+            'Download Certificate'
+          )}
+        </button>
+      )}
+    </div>
 
           <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded shadow text-left">
             {`Lecture ${
