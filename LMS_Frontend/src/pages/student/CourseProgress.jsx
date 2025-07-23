@@ -157,17 +157,17 @@ function CourseProgress() {
       <div className="flex flex-col md:flex-row gap-6 min-h-[500px]">
         {/* Left: Video + Title */}
         <div className="md:w-[60%] bg-white dark:bg-gray-800 rounded shadow p-4">
-          <h2 className="text-2xl font-bold text-left mb-4">{courseTitle}</h2>
-          {completed && (
-            <div className="text-right">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">{courseTitle}</h2>
+            {completed && (
               <button
                 onClick={() => generateCertificate(courseTitle)}
-                className="bg-green-500 text-white px-4 py-2 mb-2 rounded hover:bg-green-600 transition"
+                className="bg-green-600 text-white px-4 py-2rounded hover:bg-green-600 transition"
               >
                 Download Certificate
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded shadow text-left">
             {`Lecture ${
