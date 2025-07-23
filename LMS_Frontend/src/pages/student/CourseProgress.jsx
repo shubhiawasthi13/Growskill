@@ -131,14 +131,6 @@ function CourseProgress() {
         >
           Start Interview Prep
         </button>
-        {completed && (
-          <button
-            onClick={() => generateCertificate(courseTitle)}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-          >
-            Download Certificate
-          </button>
-        )}
 
         <button
           className={`px-4 py-1 rounded shadow flex items-center gap-2
@@ -166,6 +158,14 @@ function CourseProgress() {
         {/* Left: Video + Title */}
         <div className="md:w-[60%] bg-white dark:bg-gray-800 rounded shadow p-4">
           <h2 className="text-2xl font-bold text-left mb-4">{courseTitle}</h2>
+          {completed && (
+            <button
+              onClick={() => generateCertificate(courseTitle)}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            >
+              Download Certificate
+            </button>
+          )}
 
           <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded shadow text-left">
             {`Lecture ${
@@ -175,7 +175,10 @@ function CourseProgress() {
             }: ${currentLecture?.lectureTitle || initialLecture.lectureTitle}`}
           </div>
           <video
-            src={currentLecture?.videoUrl || initialLecture.videoUrl}
+            src={
+              currentLecture?.videoUrl.replace("http://", "https://") ||
+              initialLecture.videoUrl.replace("http://", "https://")
+            }
             className="w-full"
             controls
             onPlay={() =>

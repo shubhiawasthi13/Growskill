@@ -77,7 +77,7 @@ function CourseDetail() {
             <CardContent className="p-0">
               <div className="aspect-video mb-4 rounded-md overflow-hidden">
                 <ReactPlayer
-                  url={course.lectures[0].videoUrl}
+                  url={course.lectures[0].videoUrl.replace('http://', 'https://')}
                   controls
                   width="100%"
                   height="100%"

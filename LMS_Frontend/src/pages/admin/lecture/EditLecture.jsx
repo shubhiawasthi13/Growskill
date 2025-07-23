@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
 
-const MEDIA_API = "https://groww-skill.netlify.app//api/v1/media";
+const MEDIA_API = "https://groww-skill.netlify.app/api/v1/media";
 
 function EditLecture() {
   const navigate = useNavigate();
