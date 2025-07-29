@@ -1,5 +1,5 @@
 import { use, useEffect, useState } from "react";
-import { Moon, Sun, BrainCircuit, Menu, X } from "lucide-react";
+import { Moon, Sun, BrainCircuit, Menu, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "../../theme/ThemeContext.jsx";
 import { Link, useNavigate } from "react-router-dom";
@@ -55,6 +55,32 @@ export default function Navbar() {
 
           {/* Right Side Icons */}
           <div className="flex items-center gap-4">
+            <button>
+              <div>
+                <style>
+                  {`
+          @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+          }
+          .blink {
+            animation: blink 1.5s infinite;
+          }
+        `}
+                </style>
+
+                <Link
+                  to="https://expo.dev/accounts/shubhi1234/projects/MyNativeApp/builds/d9915e55-429c-4888-a5b1-2cb4e24a2652"
+                  download
+                  target="_blank"
+                  className="blink inline-flex items-center justify-center px-3 py-2 rounded-md font-semibold border border-blue-600 text-blue-600 hover:border-blue-800 hover:text-blue-800 dark:border-blue-400 dark:text-blue-400 dark:hover:border-blue-600 dark:hover:text-blue-600 transition duration-300"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download App
+                </Link>
+              </div>
+            </button>
+
             {/* Desktop Only: Avatar or Auth Buttons */}
             <div className="hidden md:flex items-center gap-2">
               {user ? (
