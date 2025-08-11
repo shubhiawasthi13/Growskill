@@ -70,7 +70,7 @@ export default function Navbar() {
                 </style>
 
                 <Link
-                  to="https://expo.dev/accounts/shubhi1234/projects/MyNativeApp/builds/d9915e55-429c-4888-a5b1-2cb4e24a2652"
+                  to="https://expo.dev/accounts/shubhi1234/projects/MyNativeApp/builds/92df0b10-8bff-480a-9e92-27bd2cb68d60"
                   download
                   target="_blank"
                   className="blink flex items-center justify-center gap-2 px-3 py-2 md:px-4 md:py-2 text-sm md:text-base rounded-md font-semibold border border-blue-600 text-blue-600 hover:border-blue-800 hover:text-blue-800 dark:border-blue-400 dark:text-blue-400 dark:hover:border-blue-600 dark:hover:text-blue-600 transition duration-300"
